@@ -1,7 +1,6 @@
 package com.example.api.service;
 
 import com.example.api.dto.BankAccountDto;
-import com.example.api.dto.UserDto;
 import com.example.api.model.BankAccount;
 import com.example.api.model.User;
 import com.example.api.repository.BankAccountRepository;
