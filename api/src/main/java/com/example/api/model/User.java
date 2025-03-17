@@ -1,59 +1,61 @@
 package com.example.api.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
-
 @Data
-    @Entity
-    @Table(name = "users")
-    public class User{
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private long id;
+@Entity
+@Table(name = "user")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-        @Column(name="firstName")
-        private String firstName;
+    @Column(name = "firstName")
+    private String firstName;
 
-        @Column(name="lastName")
-        private String lastName;
+    @Column(name = "lastName")
+    private String lastName;
 
-        @Column(name="email")
-        private String mail;
+    @Column(name = "email")
+    private String email;
 
-        @Column(name="cart_id")
-        private String cartId;
-        
-        @Column(name="password")
-        private String password;
-        
-        @Column(name="salt")
-        private String salt;
+    @Column(name = "cart_id")
+    private long cartId;
 
-    @OneToOne
-    @JoinColumn(name = "bank_account_id")
-    private BankAccount bankAccount;
+    @Column(name = "password")
+    private String password;
 
-    public BankAccount getBankAccount() {
-        return bankAccount;
-    }
+    @Column(name = "salt")
+    private String salt;
 
-    public void setBankAccount(BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
-    }
+    @Column(name = "aimed_maccros")
+    private double aimed_maccros;
+
+    @Column(name = "current_maccros")
+    private double current_maccros;
+
+    @OneToMany(mappedBy = "user")
+    private List<Cart> carts;
 
     public User() {
 
-        }
+    }
 
-    public User(long id,String firstName,  String lastName, String mail, String password, String salt) {
-            this.firstName = firstName;
-            this.id = id;
-            this.lastName = lastName;
-            this.mail = mail;
-            this.password = password;
-            this.salt = salt;
-        }
+    public User(long id, String firstName, String lastName, String email, String password, String salt,
+            double aimed_maccros, double current_maccros, long cartId) {
+        this.firstName = firstName;
+        this.id = id;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.salt = salt;
+        this.aimed_maccros = aimed_maccros;
+        this.current_maccros = current_maccros;
+        this.cartId = cartId;
+    }
 
     public long getId() {
         return id;
@@ -79,12 +81,12 @@ import lombok.Data;
         this.lastName = lastName;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -102,4 +104,29 @@ import lombok.Data;
     public void setSalt(String salt) {
         this.salt = salt;
     }
+
+    public double getAimedMaccros() {
+        return aimed_maccros;
+    }
+
+    public void setAimedMaccros(double aimed_maccros) {
+        this.aimed_maccros = aimed_maccros;
+    }
+
+    public double getCurrentMaccros() {
+        return current_maccros;
+    }
+
+    public void setCurrentMaccros(double current_maccros) {
+        this.current_maccros = current_maccros;
+    }
+
+    public long getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(long cartId) {
+        this.cartId = cartId;
+    }
+
 }

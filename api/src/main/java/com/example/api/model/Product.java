@@ -5,35 +5,34 @@ import java.util.List;
 import jakarta.persistence.*;
 import lombok.Data;
 
-
 @Data
-    @Entity
-    @Table(name = "products")
-    public class Product {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private long id;
+@Entity
+@Table(name = "products")
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-        @Column(name="name")
-        private String name;
+    @Column(name = "name")
+    private String name;
 
-        @Column(name="category")
-        private String category;
+    @Column(name = "category")
+    private String category;
 
-        @Column(name="proteins")
-        private Double proteins;
+    @Column(name = "proteins")
+    private Double proteins;
 
-        @Column(name="fibers")
-        private Double fibers;
+    @Column(name = "fibers")
+    private Double fibers;
 
-        @Column(name="calories")
-        private Double calories;
+    @Column(name = "calories")
+    private Double calories;
 
-        @Column(name="carbohydrates")
-        private Double carbohydrates;
+    @Column(name = "carbohydrates")
+    private Double carbohydrates;
 
-        @ManyToMany(mappedBy = "productList")
-        private List<Cart> carts;
+    @ManyToMany(mappedBy = "productList")
+    private List<Cart> carts;
 
     // @OneToOne
     // @JoinColumn(name = "bank_account_id")
@@ -43,7 +42,8 @@ import lombok.Data;
 
     }
 
-    public Product(long id, String name, String category, double proteins, double fibers, double calories, double carbohydrates) {
+    public Product(long id, String name, String category, double proteins, double fibers, double calories,
+            double carbohydrates) {
         this.id = id;
         this.name = name;
         this.category = category;

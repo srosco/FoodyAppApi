@@ -19,7 +19,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User loginRequest) throws Exception {
-        User user = userService.findByMail(loginRequest.getMail());
+        User user = userService.findByEmail(loginRequest.getEmail());
         if(user != null) {
             boolean b = PasswordUtils.verifyPassword(loginRequest.getPassword(), user.getSalt(), user.getPassword());
             if(!b){
@@ -30,7 +30,7 @@ public class AuthController {
             return ResponseEntity.status(401).body("Invalid username or password");
         }
 
-        String token = JwtUtil.generateToken(user.getMail(), String.valueOf(user.getId()));
+        String token = JwtUtil.generateToken(user.getEmail(), String.valueOf(user.getId()));
         return ResponseEntity.ok(Collections.singletonMap("token", token));
     }
 }

@@ -47,6 +47,11 @@ https://repo.maven.apache.org/maven2: PKIX path building failed: sun.security.pr
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.33</version>
+		</dependency>
 		<!--~~(org.springframework.boot:spring-boot-starter-test failed. Unable to download metadata. Tried repositories:
 https://repo.maven.apache.org/maven2: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target)~~>--><dependency>
 			<groupId>org.springframework.boot</groupId>

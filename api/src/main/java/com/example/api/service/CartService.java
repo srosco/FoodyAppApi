@@ -19,11 +19,11 @@ public class CartService {
     private CartRepository cartRepository;
 
     private CartDto convertToDto(Cart cart) {
-        return new CartDto(cart.getId(), cart.getName(), cart.getCreationDate(), cart.getUser());
+        return new CartDto(cart.getId(), cart.getName(), cart.getCreationDate(), cart.getTotalCalories(), cart.getTotal_carbohydrates(), cart.getTotal_fibers(), cart.getTotalProteins(), cart.getUserId());
     }
 
     private Cart convertToEntity(CartDto cartDto) {
-        return new Cart(cartDto.getId(), cartDto.getName(), cartDto.getCreationDate(), cartDto.getUser());
+        return new Cart(cartDto.getId(), cartDto.getName(), cartDto.getCreationDate(), cartDto.getTotalCalories(), cartDto.getTotal_carbohydrates(), cartDto.getTotal_fibers(), cartDto.getTotalProteins(), cartDto.getUserId());
     }
 
     public CartDto getCart(final Long id){
@@ -47,7 +47,11 @@ public class CartService {
         Cart cart = new Cart();
         cart.setName(cartDto.getName());
         cart.setCreationDate(cartDto.getCreationDate());
-        cart.setUser(cartDto.getUser());
+        cart.setUserId(cartDto.getUserId());
+        cart.setTotalCalories(cartDto.getTotalCalories());
+        cart.setTotalCarbohydrates(cartDto.getTotalCarbohydrates());
+        cart.setTotalFibers(cartDto.getTotal_fibers());
+        cart.setTotalProteins(cartDto.getTotal_proteins());
         cart = cartRepository.save(cart);
         System.out.println("Received cart: " + cart);
         return convertToDto(cart);
@@ -57,7 +61,11 @@ public class CartService {
         Cart cart = cartRepository.findById(cartDto.getId()).orElseThrow(() -> new RuntimeException("Cart not found"));
         cart.setName(cartDto.getName());
         cart.setCreationDate(cartDto.getCreationDate());
-        cart.setUser(cartDto.getUser());
+        cart.setUserId(cartDto.getUserId());
+        cart.setTotalCalories(cartDto.getTotalCalories());
+        cart.setTotalCarbohydrates(cartDto.getTotalCarbohydrates());
+        cart.setTotalFibers(cartDto.getTotal_fibers());
+        cart.setTotalProteins(cartDto.getTotal_proteins());
         Cart savedCart = cartRepository.save(cart);
         return convertToDto(savedCart);
     }

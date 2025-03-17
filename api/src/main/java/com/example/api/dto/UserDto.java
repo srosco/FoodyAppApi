@@ -1,5 +1,7 @@
 package com.example.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 
@@ -7,24 +9,41 @@ import lombok.Data;
 public class UserDto {
     private long id;
 
-
+    @JsonProperty("firstName")
     private String firstName;
 
+    @JsonProperty("lastName")
     private String lastName;
 
-    private String mail;
+    @JsonProperty("email")
+    private String email;
 
+    @JsonProperty("password")
     private String password;
 
+    @JsonProperty("salt")
     private String salt;
-    private BankAccountDto bankAccount;
 
-    public UserDto(long id, String firstName, String lastName, String mail, BankAccountDto bankAccount) {
+    @JsonProperty("aimed_maccros")
+    private double aimed_maccros;
+
+    @JsonProperty("current_maccros")
+    private double current_maccros;
+
+    @JsonProperty("cart_id")
+    private long cartId;
+
+    public UserDto(long id, String firstName, String lastName, String email, String password, String salt,
+    double aimed_maccros, double current_maccros, long cartId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.mail = mail;
-        this.bankAccount = bankAccount;
+        this.email = email;
+        this.password = password;
+        this.salt = salt;
+        this.current_maccros = current_maccros;
+        this.aimed_maccros = aimed_maccros;
+        this.cartId = cartId;
     }
 
     public long getId() {
@@ -51,12 +70,12 @@ public class UserDto {
         this.lastName = lastName;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setMail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -74,12 +93,28 @@ public class UserDto {
     public void setSalt(String salt) {
         this.salt = salt;
     }
-
-    public BankAccountDto getBankAccount() {
-        return bankAccount;
+    
+    public double getAimedMaccros() {
+        return aimed_maccros;
+    }
+    
+    public void setAimedMaccros(double aimed_maccros) {
+        this.aimed_maccros = aimed_maccros;
     }
 
-    public void setBankAccount(BankAccountDto bankAccount) {
-        this.bankAccount = bankAccount;
+    public double getCurrentMaccros() {
+        return current_maccros;
+    }
+    
+    public void setCurrentMaccros(double current_maccros) {
+        this.current_maccros = current_maccros;
+    }
+
+    public long getCartId() {
+        return cartId;
+    }
+    
+    public void setCartId(long cartId) {
+        this.cartId = cartId;
     }
 }

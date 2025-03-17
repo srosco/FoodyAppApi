@@ -17,15 +17,13 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private  BankAccountService bankAccountService;
 
     private UserDto convertToDto(User user) {
-        return new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getMail(), bankAccountService.convertToDto(user.getBankAccount()));
+        return new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getSalt(), user.getAimedMaccros(), user.getCurrentMaccros(), user.getCartId());
     }
 
     private User convertToEntity(UserDto userDto) {
-        return new User(userDto.getId(), userDto.getFirstName(), userDto.getLastName(), userDto.getMail(), userDto.getPassword(),userDto.getSalt() );
+        return new User(userDto.getId(), userDto.getFirstName(), userDto.getLastName(), userDto.getEmail(), userDto.getPassword(), userDto.getSalt(), userDto.getAimedMaccros(), userDto.getCurrentMaccros(), userDto.getCartId());
     }
 
     public UserDto getUser(final Long id){
@@ -51,8 +49,10 @@ public class UserService {
         String hashedPassword = PasswordUtils.hashPassword(userDto.getPassword(), salt);
         user.setPassword(hashedPassword);
         user.setSalt(salt);
+        user.setCurrentMaccros(userDto.getCurrentMaccros());
+        user.setAimedMaccros(userDto.getAimedMaccros());
+        user.setCartId(userDto.getCartId());
         User savedUser = userRepository.save(user);
-        savedUser.setBankAccount(bankAccountService.createBankAccount(user));
         userRepository.save(savedUser);
         return convertToDto(savedUser);
     }
@@ -61,13 +61,15 @@ public class UserService {
         User user = userRepository.findById(userDto.getId()).orElseThrow(() -> new RuntimeException("User not found"));
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
-        user.setMail(userDto.getMail());
+        user.setEmail(userDto.getEmail());
+        user.setCurrentMaccros(userDto.getCurrentMaccros());
+        user.setAimedMaccros(userDto.getAimedMaccros());
         User savedUser = userRepository.save(user);
         return convertToDto(savedUser);
     }
 
-    public User findByMail(String mail) {
-        var user = userRepository.findByMail(mail);
+    public User findByEmail(String email) {
+        var user = userRepository.findByEmail(email);
         return user.orElse(null);
     }
 
