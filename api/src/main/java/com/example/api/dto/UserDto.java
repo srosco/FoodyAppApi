@@ -9,10 +9,10 @@ import lombok.Data;
 public class UserDto {
     private long id;
 
-    @JsonProperty("firstName")
+    @JsonProperty("first_name")
     private String firstName;
 
-    @JsonProperty("lastName")
+    @JsonProperty("last_name")
     private String lastName;
 
     @JsonProperty("email")

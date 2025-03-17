@@ -43,17 +43,20 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public UserDto saveUser(UserDto userDto) throws Exception{
+    public UserDto saveUser(UserDto userDto) throws Exception {
         User user = convertToEntity(userDto);
         String salt = PasswordUtils.generateSalt();
         String hashedPassword = PasswordUtils.hashPassword(userDto.getPassword(), salt);
+        
+        // Setting fields with hashed password and salt
         user.setPassword(hashedPassword);
         user.setSalt(salt);
         user.setCurrentMaccros(userDto.getCurrentMaccros());
         user.setAimedMaccros(userDto.getAimedMaccros());
         user.setCartId(userDto.getCartId());
-        User savedUser = userRepository.save(user);
-        userRepository.save(savedUser);
+        
+        // Save user to the repository
+        User savedUser = userRepository.save(user);  // Save once
         return convertToDto(savedUser);
     }
 
