@@ -1,9 +1,13 @@
 package com.example.api;
+// package com.example.api.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.example.api.exception.ProductNameAlreadyExistsException;
+
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import jakarta.validation.ConstraintViolationException;
@@ -31,5 +35,11 @@ public class GlobalExceptionHandler {
                 .map(violation -> violation.getMessage())
                 .collect(Collectors.joining(", "));
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ProductNameAlreadyExistsException.class)
+    public ResponseEntity<String> handleProductNameAlreadyExistsException(ProductNameAlreadyExistsException ex) {
+        // Returning 404 with a custom error message
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

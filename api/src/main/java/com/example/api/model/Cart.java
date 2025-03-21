@@ -3,6 +3,8 @@ package com.example.api.model;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -13,9 +15,10 @@ public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long cartId;
+    private long id;
 
     @Column(name = "creation_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date creation_date;
 
     @Column(name = "name")
@@ -35,7 +38,7 @@ public class Cart {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private User user_id;
 
     @ManyToMany
     @JoinTable(
@@ -43,35 +46,30 @@ public class Cart {
         joinColumns = @JoinColumn(name = "cart_id"),
         inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    private List<Product> products;
-
-
-    @ManyToMany
-    @JoinTable(name = "cart_products", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> productList;
 
     public Cart() {
 
     }
 
-    public Cart(long cartId, String name, Date creation_date, double total_calories, double total_fibers, double total_carbohydrates, double total_proteins, User userId) {
-        this.cartId = cartId;
+    public Cart(long id, String name, Date creation_date, double total_calories, double total_fibers, double total_carbohydrates, double total_proteins, User user_id) {
+        this.id = id;
         this.name = name;
         this.creation_date = creation_date;
         this.total_calories = total_calories;
         this.total_carbohydrates = total_carbohydrates;
         this.total_fibers = total_fibers;
         this.total_proteins = total_proteins;
-        this.user = userId;
+        this.user_id = user_id;
     }
 
     // Getters and setters
     public long getId() {
-        return cartId;
+        return id;
     }
 
-    public void setId(long cartId) {
-        this.cartId = cartId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Date getCreationDate() {
@@ -91,11 +89,11 @@ public class Cart {
     }
 
     public User getUserId() {
-        return user;
+        return user_id;
     }
 
-    public void setUserId(User userId) {
-        this.user = userId;
+    public void setUserId(User user_id) {
+        this.user_id = user_id;
     }
 
     public double getTotalCalories() {
@@ -128,6 +126,14 @@ public class Cart {
 
     public void setTotalProteins(double total_proteins) {
         this.total_proteins = total_proteins;
+    }
+
+    public List<Product> getProducts() {
+        return productList;
+    }
+
+    public void setProducts(List<Product> productList) {
+        this.productList = productList;
     }
 
 }

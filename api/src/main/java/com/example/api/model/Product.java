@@ -34,10 +34,6 @@ public class Product {
     @ManyToMany(mappedBy = "productList")
     private List<Cart> carts;
 
-    // @OneToOne
-    // @JoinColumn(name = "bank_account_id")
-    // private BankAccount bankAccount;
-
     public Product() {
 
     }

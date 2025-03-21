@@ -19,7 +19,7 @@ public class CartController {
         this.cartService = cartService;
     }
     
-    @GetMapping()
+    @GetMapping("all")
     public List<CartDto> getCarts() {
         return cartService.getCarts();
     }
@@ -40,29 +40,8 @@ public class CartController {
     }
     
     @PostMapping("")
-    public CartDto createCart(@RequestBody CartDto cartDto) throws Exception{
-        System.out.println(cartDto);
-        
+    public CartDto createCart(@RequestBody CartDto cartDto) throws Exception {
+        System.out.println("Received cart: " + cartDto);
         return cartService.createCart(cartDto);
     }
-  
-    // CartService cartRepository;
-    // @GetMapping()
-    // public CartDto getBankAccount(@RequestHeader("Authorization") String token) {
-    //     if (token.startsWith("Bearer ")) {
-    //         token = token.substring(7);
-    //     }
-    //     String userId = JwtUtil.extractUserId(token);
-    //     return cartService.getBankAccountById(Long.parseLong(userId));
-    // }
-
-
-    // @PutMapping("{amount}")
-    // public CartDto updateAmount( @RequestHeader("Authorization") String token,@PathVariable double amount )  {
-    //     if (token.startsWith("Bearer ")) {
-    //         token = token.substring(7);
-    //     }
-    //     String userId = JwtUtil.extractUserId(token);
-    //     return bankAccountService.updateBankAccount(amount,Long.parseLong(userId));
-    // }
 }

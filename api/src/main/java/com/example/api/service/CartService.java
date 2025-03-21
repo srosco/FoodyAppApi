@@ -1,6 +1,8 @@
 package com.example.api.service;
 import com.example.api.dto.CartDto;
+import com.example.api.dto.ProductDto;
 import com.example.api.model.Cart;
+import com.example.api.model.Product;
 import com.example.api.repository.CartRepository;
 
 import lombok.Data;
@@ -14,6 +16,15 @@ import org.springframework.stereotype.Service;
 @Data
 @Service
 public class CartService {
+
+    @Autowired
+    private ProductService productService;
+
+    // Conversion from ProductDto to Product
+    private Product convertToProduct(ProductDto productDto) {
+        // Fetch the product entity from the database using the Product ID from the DTO
+        return productService.findProductById(productDto.getId());
+    }
 
     @Autowired
     private CartRepository cartRepository;
@@ -52,6 +63,16 @@ public class CartService {
         cart.setTotalCarbohydrates(cartDto.getTotalCarbohydrates());
         cart.setTotalFibers(cartDto.getTotal_fibers());
         cart.setTotalProteins(cartDto.getTotal_proteins());
+
+        if (cartDto.getProducts() != null && !cartDto.getProducts().isEmpty()) {
+            List<Product> products = cartDto.getProducts().stream()
+                .map(this::convertToProduct)  // Convert ProductDto to Product
+                .collect(Collectors.toList());
+    
+            cart.setProductList(products);
+        }
+
+        // Save the cart entity
         cart = cartRepository.save(cart);
         System.out.println("Received cart: " + cart);
         return convertToDto(cart);

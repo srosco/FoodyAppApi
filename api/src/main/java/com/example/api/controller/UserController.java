@@ -46,7 +46,7 @@ public class UserController {
         if (token.startsWith("Bearer ")) {
             token = token.substring(7);
         }
-        String userId = JwtUtil.extractUserId(token);
-        return userService.getUser(Long.parseLong(userId));
+        String user_id = JwtUtil.extractUserId(token);
+        return userService.getUser(Long.parseLong(user_id));
     }
 }

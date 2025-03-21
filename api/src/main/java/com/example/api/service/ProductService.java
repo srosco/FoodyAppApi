@@ -1,16 +1,22 @@
 package com.example.api.service;
 
 import com.example.api.dto.ProductDto;
+import com.example.api.exception.ProductNameAlreadyExistsException;
 import com.example.api.model.Product;
 import com.example.api.repository.ProductRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
 
+    @Autowired
     private final ProductRepository productRepository;
 
     // Constructor injection of ProductRepository
@@ -48,8 +54,14 @@ public class ProductService {
 
     public ProductDto createProduct(ProductDto productDto) {
         Product product = convertToEntity(productDto);
-        product = productRepository.save(product);
-        System.out.println("Received product: " + product);
+        try {
+            product = productRepository.save(product);
+        } catch (DataIntegrityViolationException e) {
+            // Handle duplicate entry error
+            throw new ProductNameAlreadyExistsException("Product with name " + productDto.getName() + " already exists.");
+        }
+        // Product product = convertToEntity(productDto);
+        // product = productRepository.save(product);
         return convertToDto(product);
     }
 
@@ -64,5 +76,10 @@ public class ProductService {
         product.setCarbohydrates(productDto.getCarbohydrates());
         Product savedProduct = productRepository.save(product);
         return convertToDto(savedProduct);
+    }
+
+    public Product findProductById(Long productId) {
+        return productRepository.findById(productId)
+            .orElseThrow(() -> new RuntimeException("Product not found with id: " + productId));
     }
 }

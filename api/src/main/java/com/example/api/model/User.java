@@ -37,7 +37,7 @@ public class User {
     @Column(name = "current_maccros")
     private double current_maccros;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user_id")
     private List<Cart> carts;
 
     public User() {
