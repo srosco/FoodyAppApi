@@ -29,7 +29,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ProductDto updateProduct(@PathVariable long id, @RequestBody ProductDto productDto) {
-        return productService.updateProduct(productDto);
+        return productService.updateProduct(id, productDto);
     }
 
     @DeleteMapping("/{id}")

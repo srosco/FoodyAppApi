@@ -34,7 +34,7 @@ public class ProductService {
                 productDto.getProteins(), productDto.getFibers(), productDto.getCalories(), productDto.getCarbohydrates());
     }
 
-    public ProductDto getProduct(final Long id) {
+    public ProductDto getProduct(final long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         return convertToDto(product);
@@ -65,8 +65,8 @@ public class ProductService {
         return convertToDto(product);
     }
 
-    public ProductDto updateProduct(ProductDto productDto) {
-        Product product = productRepository.findById(productDto.getId())
+    public ProductDto updateProduct(final long id, ProductDto productDto) {
+        Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         product.setName(productDto.getName());
         product.setCategory(productDto.getCategory());
