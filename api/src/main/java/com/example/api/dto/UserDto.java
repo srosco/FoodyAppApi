@@ -25,24 +25,24 @@ public class UserDto {
     private String salt;
 
     @JsonProperty("aimed_maccros")
-    private double aimed_maccros;
+    private double aimedMaccros;
 
     @JsonProperty("current_maccros")
-    private double current_maccros;
+    private double currentMaccros;
 
     @JsonProperty("cart_id")
     private long cartId;
 
     public UserDto(long id, String firstName, String lastName, String email, String password, String salt,
-    double aimed_maccros, double current_maccros, long cartId) {
+    double aimedMaccros, double currentMaccros, long cartId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.salt = salt;
-        this.current_maccros = current_maccros;
-        this.aimed_maccros = aimed_maccros;
+        this.currentMaccros = currentMaccros;
+        this.aimedMaccros = aimedMaccros;
         this.cartId = cartId;
     }
 
@@ -95,19 +95,19 @@ public class UserDto {
     }
     
     public double getAimedMaccros() {
-        return aimed_maccros;
+        return aimedMaccros;
     }
     
-    public void setAimedMaccros(double aimed_maccros) {
-        this.aimed_maccros = aimed_maccros;
+    public void setAimedMaccros(double aimedMaccros) {
+        this.aimedMaccros = aimedMaccros;
     }
 
     public double getCurrentMaccros() {
-        return current_maccros;
+        return currentMaccros;
     }
     
-    public void setCurrentMaccros(double current_maccros) {
-        this.current_maccros = current_maccros;
+    public void setCurrentMaccros(double currentMaccros) {
+        this.currentMaccros = currentMaccros;
     }
 
     public long getCartId() {

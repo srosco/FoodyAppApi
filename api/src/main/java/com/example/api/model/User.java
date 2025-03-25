@@ -32,10 +32,10 @@ public class User {
     private String salt;
 
     @Column(name = "aimed_maccros")
-    private double aimed_maccros;
+    private double aimedMaccros;
 
     @Column(name = "current_maccros")
-    private double current_maccros;
+    private double currentMaccros;
 
     @OneToMany(mappedBy = "user_id")
     private List<Cart> carts;
@@ -45,15 +45,15 @@ public class User {
     }
 
     public User(long id, String firstName, String lastName, String email, String password, String salt,
-            double aimed_maccros, double current_maccros, long cartId) {
+            double aimedMaccros, double currentMaccros, long cartId) {
         this.firstName = firstName;
         this.id = id;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.salt = salt;
-        this.aimed_maccros = aimed_maccros;
-        this.current_maccros = current_maccros;
+        this.aimedMaccros = aimedMaccros;
+        this.currentMaccros = currentMaccros;
         this.cartId = cartId;
     }
 
@@ -106,19 +106,19 @@ public class User {
     }
 
     public double getAimedMaccros() {
-        return aimed_maccros;
+        return aimedMaccros;
     }
 
-    public void setAimedMaccros(double aimed_maccros) {
-        this.aimed_maccros = aimed_maccros;
+    public void setAimedMaccros(double aimedMaccros) {
+        this.aimedMaccros = aimedMaccros;
     }
 
     public double getCurrentMaccros() {
-        return current_maccros;
+        return currentMaccros;
     }
 
-    public void setCurrentMaccros(double current_maccros) {
-        this.current_maccros = current_maccros;
+    public void setCurrentMaccros(double currentMaccros) {
+        this.currentMaccros = currentMaccros;
     }
 
     public long getCartId() {
