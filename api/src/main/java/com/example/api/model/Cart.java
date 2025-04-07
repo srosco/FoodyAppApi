@@ -1,6 +1,6 @@
 package com.example.api.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -19,48 +19,47 @@ public class Cart {
 
     @Column(name = "creation_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private Date creation_date;
+    private LocalDate creationDate;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "total_calories")
-    private double total_calories;
+    private double totalCalories;
 
     @Column(name = "total_proteins")
-    private double total_proteins;
+    private double totalProteins;
 
     @Column(name = "total_fibers")
-    private double total_fibers;
+    private double totalFibers;
 
     @Column(name = "total_carbohydrates")
-    private double total_carbohydrates;
+    private double totalCarbohydrates;
 
+    // Many-to-one relationship with User
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user_id;
+    private User user;
 
-    @ManyToMany
-    @JoinTable(
-        name = "cart_products",
-        joinColumns = @JoinColumn(name = "cart_id"),
-        inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> productList;
+    // One-to-many relationship with CartProduct
+    @OneToMany
+    @JoinColumn(name = "cart_id")
+    private List<CartProduct> cartProducts;
 
-    public Cart() {
+    // Default constructor
+    public Cart() {}
 
-    }
-
-    public Cart(long id, String name, Date creation_date, double total_calories, double total_fibers, double total_carbohydrates, double total_proteins, User user_id) {
+    // Constructor with parameters
+    public Cart(long id, String name, LocalDate creationDate, double totalCalories, double totalCarbohydrates, 
+                double totalFibers, double totalProteins, User user) {
         this.id = id;
         this.name = name;
-        this.creation_date = creation_date;
-        this.total_calories = total_calories;
-        this.total_carbohydrates = total_carbohydrates;
-        this.total_fibers = total_fibers;
-        this.total_proteins = total_proteins;
-        this.user_id = user_id;
+        this.creationDate = creationDate;
+        this.totalCalories = totalCalories;
+        this.totalCarbohydrates = totalCarbohydrates;
+        this.totalFibers = totalFibers;
+        this.totalProteins = totalProteins;
+        this.user = user;
     }
 
     // Getters and setters
@@ -72,12 +71,12 @@ public class Cart {
         this.id = id;
     }
 
-    public Date getCreationDate() {
-        return creation_date;
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
-    public void setCreationDate(Date creation_date) {
-        this.creation_date = creation_date;
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getName() {
@@ -88,52 +87,51 @@ public class Cart {
         this.name = name;
     }
 
-    public User getUserId() {
-        return user_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User user_id) {
-        this.user_id = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public double getTotalCalories() {
-        return total_calories;
+        return totalCalories;
     }
 
-    public void setTotalCalories(double total_calories) {
-        this.total_calories = total_calories;
+    public void setTotalCalories(double totalCalories) {
+        this.totalCalories = totalCalories;
     }
 
     public double getTotalCarbohydrates() {
-        return total_calories;
+        return totalCarbohydrates;
     }
 
-    public void setTotalCarbohydrates(double total_calories) {
-        this.total_calories = total_calories;
+    public void setTotalCarbohydrates(double totalCarbohydrates) {
+        this.totalCarbohydrates = totalCarbohydrates;
     }
 
     public double getTotalFibers() {
-        return total_fibers;
+        return totalFibers;
     }
 
-    public void setTotalFibers(double total_fibers) {
-        this.total_fibers = total_fibers;
+    public void setTotalFibers(double totalFibers) {
+        this.totalFibers = totalFibers;
     }
 
     public double getTotalProteins() {
-        return total_proteins;
+        return totalProteins;
     }
 
-    public void setTotalProteins(double total_proteins) {
-        this.total_proteins = total_proteins;
+    public void setTotalProteins(double totalProteins) {
+        this.totalProteins = totalProteins;
     }
 
-    public List<Product> getProducts() {
-        return productList;
+    public List<CartProduct> getProductList() {
+        return cartProducts;
     }
 
-    public void setProducts(List<Product> productList) {
-        this.productList = productList;
+    public void setProductList(List<CartProduct> cartProducts) {
+        this.cartProducts = cartProducts;
     }
-
 }

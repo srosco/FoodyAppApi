@@ -1,47 +1,35 @@
-package com.example.api.model;
+package com.example.api.dto;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
-@Entity
-@Table(name = "products")
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProductInCartDto {
     private long id;
 
-    @Column(name = "name")
+    @JsonProperty("name")
     private String name;
 
-    @Column(name = "category")
+    @JsonProperty("category")
     private String category;
 
-    @Column(name = "proteins")
+    @JsonProperty("proteins")
     private double proteins;
 
-    @Column(name = "fibers")
+    @JsonProperty("fibers")
     private double fibers;
 
-    @Column(name = "calories")
+    @JsonProperty("calories")
     private double calories;
 
-    @Column(name = "carbohydrates")
+    @JsonProperty("carbohydrates")
     private double carbohydrates;
 
-    // @Version
-    // @Column(nullable = false, columnDefinition = "BIGINT DEFAULT 0")
-    // private Long version = 0L;
+    @JsonProperty("quantity_in_grams")
+    private double quantityInGrams;
 
-    // Many-to-many relationship via the CartProduct entity
-    @ManyToMany(mappedBy = "product") // Referencing the CartProduct 'product' side
-    private List<CartProduct> carts;
-
-    public Product() { }
-
-    public Product(long id, String name, String category, double proteins, double fibers, double calories, double carbohydrates) {
+    public ProductInCartDto(long id, String name, String category, double proteins, double fibers, double calories, double carbohydrates, double quantityInGrams) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -49,8 +37,10 @@ public class Product {
         this.fibers = fibers;
         this.calories = calories;
         this.carbohydrates = carbohydrates;
+        this.quantityInGrams = quantityInGrams;
     }
 
+    // Getters and Setters
     public long getId() {
         return id;
     }
@@ -65,6 +55,22 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public double getProteins() {
+        return proteins;
+    }
+
+    public void setProteins(double proteins) {
+        this.proteins = proteins;
     }
 
     public double getFibers() {
@@ -91,11 +97,11 @@ public class Product {
         this.carbohydrates = carbohydrates;
     }
 
-    public List<CartProduct> getCarts() {
-        return carts;
+    public double getQuantityInGrams() {
+        return quantityInGrams;
     }
 
-    public void setCarts(List<CartProduct> carts) {
-        this.carts = carts;
+    public void setQuantityInGrams(double quantityInGrams) {
+        this.quantityInGrams = quantityInGrams;
     }
 }

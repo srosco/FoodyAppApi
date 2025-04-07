@@ -1,67 +1,79 @@
 package com.example.api.dto;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.example.api.model.User;
-// import com.example.api.model.Cart;
-import com.example.api.repository.CartRepository;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
-
 @Data
 public class CartDto {
 
-    @Autowired
-    private CartRepository cartRepository;
     private long id;
 
     @JsonProperty("creation_date")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
-    private Date creation_date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate creationDate;
 
     @JsonProperty("name")
     private String name;
 
     @JsonProperty("total_calories")
-    private double total_calories;
+    private double totalCalories;
 
     @JsonProperty("total_proteins")
-    private double total_proteins;
+    private double totalProteins;
 
     @JsonProperty("total_fibers")
-    private double total_fibers;
+    private double totalFibers;
 
     @JsonProperty("total_carbohydrates")
-    private double total_carbohydrates;
+    private double totalCarbohydrates;
+
+    // @JsonProperty("products")
+    // private List<ProductDto> products;
 
     @JsonProperty("products")
-    private List<ProductDto> products;
+    private List<ProductInCartDto> products;
 
     @JsonProperty("user_id")
-    private User user_id;
+    private long userId;  // User is now a long type, referring to userId
 
-    public CartDto(long id, String name, Date creation_date, double total_calories, double total_carbohydrates, double total_fibers, double total_proteins, User user_id) {
-        this.id = id;
-        this.name = name;
-        this.creation_date = creation_date;
-        this.total_carbohydrates = total_carbohydrates;
-        this.total_calories = total_calories;
-        this.total_fibers = total_fibers;
-        this.total_proteins = total_proteins;
-        this.user_id = user_id;
+    public CartDto() {
+        // Default constructor for Jackson
     }
 
-    // private CartDto convertToDto(Cart cart) {
-    //     return new CartDto(cart.getId(), cart.getName(), cart.getCreationDate(), cart.getTotalCalories(), cart.getTotal_carbohydrates(), cart.getTotal_fibers(), cart.getTotalProteins(), cart.getUserId());
-    //     // return new CartDto(cart.getId(), cart.getName(), cart.getCreationDate(), cart.getTotalCalories(), cart.getTotal_carbohydrates(), cart.getTotal_fibers(), cart.getTotalProteins());
+    // Constructor to initialize CartDto with all fields
+    // public CartDto(long id, String name, LocalDate creationDate, double totalCalories, double totalCarbohydrates,
+    //                double totalFibers, double totalProteins, long userId, List<ProductDto> products) {
+    //     this.id = id;
+    //     this.name = name;
+    //     this.creationDate = creationDate;
+    //     this.totalCalories = totalCalories;
+    //     this.totalCarbohydrates = totalCarbohydrates;
+    //     this.totalFibers = totalFibers;
+    //     this.totalProteins = totalProteins;
+    //     this.userId = userId;
+    //     this.products = products;
     // }
 
+    public CartDto(long id, String name, LocalDate creationDate, double totalCalories, double totalCarbohydrates,
+                   double totalFibers, double totalProteins, long userId, List<ProductInCartDto> products) {
+        this.id = id;
+        this.name = name;
+        this.creationDate = creationDate;
+        this.totalCalories = totalCalories;
+        this.totalCarbohydrates = totalCarbohydrates;
+        this.totalFibers = totalFibers;
+        this.totalProteins = totalProteins;
+        this.userId = userId;
+        this.products = products;
+    }
+
+    // Getters and setters are handled by Lombok's @Data annotation
+    // Example of manually created getter and setter for id:
     public long getId() {
         return id;
     }
@@ -70,12 +82,12 @@ public class CartDto {
         this.id = id;
     }
 
-    public Date getCreationDate() {
-        return creation_date;
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
-    public void setCreationDate(Date creation_date) {
-        this.creation_date = creation_date;
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getName() {
@@ -86,51 +98,59 @@ public class CartDto {
         this.name = name;
     }
 
-    public User getUserId() {
-        return user_id;
-    }
-
-    public void setUserId(User user_id) {
-        this.user_id = user_id;
-    }
-
     public double getTotalCalories() {
-        return total_calories;
+        return totalCalories;
     }
 
-    public void setTotalCalories(double total_calories) {
-        this.total_calories = total_calories;
+    public void setTotalCalories(double totalCalories) {
+        this.totalCalories = totalCalories;
     }
 
     public double getTotalCarbohydrates() {
-        return total_calories;
+        return totalCarbohydrates;
     }
 
-    public void setTotalCarbohydrates(double total_calories) {
-        this.total_calories = total_calories;
+    public void setTotalCarbohydrates(double totalCarbohydrates) {
+        this.totalCarbohydrates = totalCarbohydrates;
     }
 
     public double getTotalFibers() {
-        return total_fibers;
+        return totalFibers;
     }
 
-    public void setTotalFibers(double total_fibers) {
-        this.total_fibers = total_fibers;
+    public void setTotalFibers(double totalFibers) {
+        this.totalFibers = totalFibers;
     }
 
     public double getTotalProteins() {
-        return total_proteins;
+        return totalProteins;
     }
 
-    public void setTotalProteins(double total_proteins) {
-        this.total_proteins = total_proteins;
+    public void setTotalProteins(double totalProteins) {
+        this.totalProteins = totalProteins;
     }
 
-    public List<ProductDto> getProducts() {
+    // public List<ProductDto> getProducts() {
+    //     return products;
+    // }
+
+    // public void setProducts(List<ProductDto> products) {
+    //     this.products = products;
+    // }
+    
+    public List<ProductInCartDto> getProducts() {
         return products;
     }
 
-    public void setProducts(List<ProductDto> products) {
+    public void setProducts(List<ProductInCartDto> products) {
         this.products = products;
+    }
+
+    public long getUserId() {
+        return userId; // Returning the userId instead of the full User object
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 }

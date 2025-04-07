@@ -27,6 +27,9 @@ public class ProductDto {
     @JsonProperty("carbohydrates")
     private double carbohydrates;
 
+    @JsonProperty("quantity_in_grams")
+    private double quantityInGrams;
+
     public ProductDto(long id, String name, String category, double proteins, double fibers, double calories, double carbohydrates) {
         this.id = id;
         this.name = name;
@@ -60,21 +63,30 @@ public class ProductDto {
     public void setFibers(double fibers) {
         this.fibers = fibers;
     }
-
+    
+    
     public double getCalories() {
         return calories;
     }
-
+    
     public void setCalories(double calories) {
         this.calories = calories;
     }
-
+    
     public double getCarbohydrates() {
         return carbohydrates;
     }
-
+    
     public void setCarbohydrates(double carbohydrates) {
         this.carbohydrates = carbohydrates;
     }
-}
+
+    public double getQuantityInGrams() {
+        return quantityInGrams;
+    }
     
+    public void setQuantityInGrams(double quantityInGrams) {
+        this.quantityInGrams = quantityInGrams;
+    }
+}
+

@@ -22,7 +22,7 @@ public class AuthController {
         User user = userService.findByEmail(loginRequest.getEmail());
         if(user != null) {
             boolean b = PasswordUtils.verifyPassword(loginRequest.getPassword(), user.getSalt(), user.getPassword());
-            if(!b){
+            if(!b) {
                 return ResponseEntity.status(401).body("Invalid username or password");
             }
         }
