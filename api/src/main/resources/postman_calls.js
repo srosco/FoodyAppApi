@@ -85,5 +85,22 @@
       "carbohydrates": 15
     }
   ]
-}
-    */
+}*/
+
+// POST create products inside a cart through his ID  : 
+"http://localhost:9000/api/carts/{id}/products"
+[
+  {
+    "id": 2,
+    "quantity_in_grams": 300
+  },
+  {
+    "id": 3,
+    "quantity_in_grams": 300
+  },
+  {
+    "id": 10,
+    "quantity_in_grams": 500
+  }
+]
+    

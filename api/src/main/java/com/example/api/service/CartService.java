@@ -1,7 +1,6 @@
 package com.example.api.service;
 
 import com.example.api.dto.CartDto;
-import com.example.api.dto.ProductDto;
 import com.example.api.dto.ProductInCartDto;
 import com.example.api.model.Cart;
 import com.example.api.model.CartProduct;
@@ -15,7 +14,6 @@ import com.example.api.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -366,15 +364,16 @@ public class CartService {
         // Fetch the existing Cart entity
         Cart existingCart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
-
+        User updatedUser = userRepository.findById(cartDto.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));;
         // Set basic cart details
         existingCart.setName(cartDto.getName());
+        existingCart.setUser(updatedUser);
         existingCart.setCreationDate(cartDto.getCreationDate());
 
-        // Get the list of new product IDs sent in the payload
-        List<Long> newProductIds = cartDto.getProducts().stream()
-                .map(ProductInCartDto::getId)
-                .collect(Collectors.toList());
+        // // Get the list of new product IDs sent in the payload
+        // List<Long> newProductIds = cartDto.getProducts().stream()
+        //         .map(ProductInCartDto::getId)
+        //         .collect(Collectors.toList());
 
         // Iterate over the new products in the payload
         for (ProductInCartDto productInCartDto : cartDto.getProducts()) {
