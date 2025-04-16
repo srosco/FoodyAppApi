@@ -42,8 +42,7 @@ public class Cart {
     private User user;
 
     // One-to-many relationship with CartProduct
-    @OneToMany
-    @JoinColumn(name = "cart_id")
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<CartProduct> cartProducts;
 
     // Default constructor
@@ -127,11 +126,11 @@ public class Cart {
         this.totalProteins = totalProteins;
     }
 
-    public List<CartProduct> getProductList() {
+    public List<CartProduct> getCartProducts() {
         return cartProducts;
     }
-
-    public void setProductList(List<CartProduct> cartProducts) {
+    
+    public void setCartProducts(List<CartProduct> cartProducts) {
         this.cartProducts = cartProducts;
     }
 }

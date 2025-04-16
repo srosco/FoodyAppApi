@@ -19,7 +19,7 @@ public class CartProduct {
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cart_id", nullable = false)  // Foreign key to Cart
+    @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
     @ManyToOne(fetch = FetchType.EAGER)  // Change to EAGER fetching

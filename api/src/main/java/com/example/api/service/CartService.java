@@ -193,24 +193,25 @@ public class CartService {
     public CartDto convertToDto(Cart cart) {
         // System.out.println("getCartProducts ==> " + cart.getCartProducts().size());
         List<CartProduct> cartProducts = cart.getCartProducts();
-        List<ProductInCartDto> productInCartDtos = cartProducts.stream() // Use getCartProducts instead of getProductList
-        .map(cartProduct -> {
-            Product product = cartProduct.getProduct();
-            if (product == null) {
-                throw new RuntimeException("Product is null in CartProduct");
-            }
+        List<ProductInCartDto> productInCartDtos = cartProducts.stream() // Use getCartProducts instead of
+                                                                         // getProductList
+                .map(cartProduct -> {
+                    Product product = cartProduct.getProduct();
+                    if (product == null) {
+                        throw new RuntimeException("Product is null in CartProduct");
+                    }
 
-            return new ProductInCartDto(
-                    product.getId(),
-                    product.getName(),
-                    product.getCategory(),
-                    product.getProteins(),
-                    product.getFibers(),
-                    product.getCalories(),
-                    product.getCarbohydrates(),
-                    cartProduct.getQuantityInGrams());
-        })
-        .collect(Collectors.toList());
+                    return new ProductInCartDto(
+                            product.getId(),
+                            product.getName(),
+                            product.getCategory(),
+                            product.getProteins(),
+                            product.getFibers(),
+                            product.getCalories(),
+                            product.getCarbohydrates(),
+                            cartProduct.getQuantityInGrams());
+                })
+                .collect(Collectors.toList());
 
         // System.out.println("3");
         return new CartDto(
@@ -302,9 +303,9 @@ public class CartService {
                 // Create new CartProduct if not already in the cart
                 // Ensure product is fetched properly before creating the CartProduct
                 Product product = productRepository.findById(productDto.getId())
-                    .orElseThrow(() -> new RuntimeException("Product not found with ID: " + productDto.getId()));
+                        .orElseThrow(() -> new RuntimeException("Product not found with ID: " + productDto.getId()));
                 System.out.println("Product fetched: " + product);
-                System.out.println("Product QUANTITY IN GRAMS fetched: " +  productDto.getQuantityInGrams());
+                System.out.println("Product QUANTITY IN GRAMS fetched: " + productDto.getQuantityInGrams());
                 // Now create the CartProduct and associate it with the product and cart
                 CartProduct newCartProduct = new CartProduct(existingCart, product, productDto.getQuantityInGrams());
 
@@ -330,41 +331,46 @@ public class CartService {
 
     // Function to delete specific products inside a cart by their product IDs
     public CartDto removeProductsFromCart(long cartId, List<Long> productIds) {
-        // Fetch the cart entity
         Cart existingCart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
-
-        // Iterate over the list of product IDs and remove the corresponding
-        // CartProducts
+    
+        List<CartProduct> toRemove = new ArrayList<>();
+    
         for (Long productId : productIds) {
-            // Find the CartProduct with the given product ID
             CartProduct cartProductToRemove = existingCart.getCartProducts().stream()
-                    .filter(cartProduct -> cartProduct.getProduct().getId() == productId)
+                    .filter(cp -> cp.getProduct().getId() == productId)
                     .findFirst()
                     .orElse(null);
-
+    
             if (cartProductToRemove != null) {
-                // Remove the CartProduct from the cart's product list
+                // Remove reference from cart first (detach the relationship)
                 existingCart.getCartProducts().remove(cartProductToRemove);
-
-                // Delete the CartProduct entity from the database
-                cartProductRepository.delete(cartProductToRemove);
+                toRemove.add(cartProductToRemove);
             }
         }
-
+    
+        // Now delete from DB
+        for (CartProduct cp : toRemove) {
+            cartProductRepository.delete(cp);
+        }
+    
+        // Recalculate after changes
         recalculateCartTotals(existingCart);
-
-        // Save the updated cart (after removal of products)
-        existingCart = cartRepository.save(existingCart);
-
+    
+        // Save the cart after changes
+        cartRepository.save(existingCart);
+    
         return convertToDto(existingCart);
     }
+    
 
     public CartDto updateCart(long cartId, CartDto cartDto) {
         // Fetch the existing Cart entity
         Cart existingCart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
-        User updatedUser = userRepository.findById(cartDto.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));;
+        User updatedUser = userRepository.findById(cartDto.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        ;
         // Set basic cart details
         existingCart.setName(cartDto.getName());
         existingCart.setUser(updatedUser);
@@ -372,8 +378,8 @@ public class CartService {
 
         // // Get the list of new product IDs sent in the payload
         // List<Long> newProductIds = cartDto.getProducts().stream()
-        //         .map(ProductInCartDto::getId)
-        //         .collect(Collectors.toList());
+        // .map(ProductInCartDto::getId)
+        // .collect(Collectors.toList());
 
         // Iterate over the new products in the payload
         for (ProductInCartDto productInCartDto : cartDto.getProducts()) {
