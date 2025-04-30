@@ -19,11 +19,11 @@ public class UserService {
     private UserRepository userRepository;
 
     private UserDto convertToDto(User user) {
-        return new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getSalt(), user.getAimedMaccros(), user.getCurrentMaccros(), user.getCartId());
+        return new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getSalt(), user.getAimedMaccros(), user.getCurrentMaccros(), user.getAimedCarbohydrates(), user.getAimedFibers(), user.getAimedProteins(), user.getAimedCalories(), user.getCartId());
     }
 
     private User convertToEntity(UserDto userDto) {
-        return new User(userDto.getId(), userDto.getFirstName(), userDto.getLastName(), userDto.getEmail(), userDto.getPassword(), userDto.getSalt(), userDto.getAimedMaccros(), userDto.getCurrentMaccros(), userDto.getCartId());
+        return new User(userDto.getId(), userDto.getFirstName(), userDto.getLastName(), userDto.getEmail(), userDto.getPassword(), userDto.getSalt(), userDto.getAimedMaccros(), userDto.getCurrentMaccros(), userDto.getAimedCarbohydrates(), userDto.getAimedFibers(), userDto.getAimedProteins(), userDto.getAimedCalories(), userDto.getCartId());
     }
 
     public UserDto getUser(final Long id){
@@ -53,6 +53,10 @@ public class UserService {
         user.setSalt(salt);
         user.setCurrentMaccros(userDto.getCurrentMaccros());
         user.setAimedMaccros(userDto.getAimedMaccros());
+        user.setAimedCarbohydrates(userDto.getAimedCarbohydrates());
+        user.setAimedFibers(userDto.getAimedFibers());
+        user.setAimedProteins(userDto.getAimedProteins());
+        user.setAimedCalories(userDto.getAimedCalories());
         user.setCartId(userDto.getCartId());
         
         // Save user to the repository
@@ -66,7 +70,10 @@ public class UserService {
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setCurrentMaccros(userDto.getCurrentMaccros());
-        user.setAimedMaccros(userDto.getAimedMaccros());
+        user.setAimedCarbohydrates(userDto.getAimedCarbohydrates());
+        user.setAimedFibers(userDto.getAimedFibers());
+        user.setAimedProteins(userDto.getAimedProteins());
+        user.setAimedCalories(userDto.getAimedCalories());
         User savedUser = userRepository.save(user);
         return convertToDto(savedUser);
     }

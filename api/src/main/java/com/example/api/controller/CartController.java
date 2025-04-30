@@ -1,6 +1,7 @@
 package com.example.api.controller;
 
 import com.example.api.dto.CartDto;
+import com.example.api.dto.MacroSummaryDto;
 import com.example.api.dto.ProductInCartDto;
 import com.example.api.service.CartService;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,16 @@ public class CartController {
     @GetMapping("/{id}")
     public CartDto getCart(@PathVariable long id) {
         return cartService.getCart(id);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<CartDto> getCartsByUserId(@PathVariable Long userId) {
+        return cartService.getCartsByUserId(userId);
+    }
+
+    @GetMapping("/user/{userId}/summary")
+    public MacroSummaryDto getMacroSummary(@PathVariable Long userId) {
+        return cartService.getMacroSummaryByUserId(userId);
     }
 
     @PutMapping("/{id}")

@@ -1,6 +1,7 @@
 package com.example.api.service;
 
 import com.example.api.dto.CartDto;
+import com.example.api.dto.MacroSummaryDto;
 import com.example.api.dto.ProductInCartDto;
 import com.example.api.model.Cart;
 import com.example.api.model.CartProduct;
@@ -431,6 +432,35 @@ public class CartService {
         Cart updatedCart = cartRepository.save(existingCart);
 
         return convertToDto(updatedCart); // Convert to DTO and return
+    }
+
+    public List<CartDto> getCartsByUserId(Long userId) {
+        return cartRepository.findByUserId(userId)
+                             .stream()
+                             .map(this::convertToDto)
+                             .collect(Collectors.toList());
+    }
+
+    public MacroSummaryDto getMacroSummaryByUserId(Long userId) {
+        List<Cart> userCarts = cartRepository.findByUserId(userId);
+    
+        double totalCalories = userCarts.stream()
+                .mapToDouble(cart -> cart.getTotalCalories() != 0.0 ? cart.getTotalCalories() : 0)
+                .sum();
+    
+        double totalProteins = userCarts.stream()
+                .mapToDouble(cart -> cart.getTotalProteins() != 0.0 ? cart.getTotalProteins() : 0)
+                .sum();
+    
+        double totalFibers = userCarts.stream()
+                .mapToDouble(cart -> cart.getTotalFibers() != 0.0 ? cart.getTotalFibers() : 0)
+                .sum();
+    
+        double totalCarbohydrates = userCarts.stream()
+                .mapToDouble(cart -> cart.getTotalCarbohydrates() != 0.0 ? cart.getTotalCarbohydrates() : 0)
+                .sum();
+    
+        return new MacroSummaryDto(totalCalories, totalProteins, totalFibers, totalCarbohydrates);
     }
 
 }

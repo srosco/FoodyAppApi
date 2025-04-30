@@ -34,6 +34,18 @@ public class User {
     @Column(name = "aimed_maccros")
     private double aimedMaccros;
 
+    @Column(name = "aimed_carbohydrates")
+    private double aimedCarbohydrates;
+
+    @Column(name = "aimed_fibers")
+    private double aimedFibers;
+
+    @Column(name = "aimed_proteins")
+    private double aimedProteins;
+
+    @Column(name = "aimed_calories")
+    private double aimedCalories;
+
     @Column(name = "current_maccros")
     private double currentMaccros;
 
@@ -45,13 +57,17 @@ public class User {
     }
 
     public User(long id, String firstName, String lastName, String email, String password, String salt,
-            double aimedMaccros, double currentMaccros, long cartId) {
+            double aimedMaccros, double aimedCarbohydrates, double aimedFibers, double aimedProteins, double aimedCalories, double currentMaccros, long cartId) {
         this.firstName = firstName;
         this.id = id;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.salt = salt;
+        this.aimedCarbohydrates = aimedCarbohydrates;
+        this.aimedFibers = aimedFibers;
+        this.aimedProteins = aimedProteins;
+        this.aimedCalories = aimedCalories;
         this.aimedMaccros = aimedMaccros;
         this.currentMaccros = currentMaccros;
         this.cartId = cartId;
@@ -103,6 +119,38 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public double getAimedCarbohydrates() {
+        return aimedCarbohydrates;
+    }
+    
+    public void setAimedCarbohydrates(double aimedCarbohydrates) {
+        this.aimedCarbohydrates = aimedCarbohydrates;
+    }
+
+    public double getAimedFibers() {
+        return aimedFibers;
+    }
+    
+    public void setAimedFibers(double aimedFibers) {
+        this.aimedFibers = aimedFibers;
+    }
+    
+    public double getAimedProteins() {
+        return aimedProteins;
+    }
+    
+    public void setAimedProteins(double aimedProteins) {
+        this.aimedProteins = aimedProteins;
+    }
+
+    public double getAimedCalories() {
+        return aimedCalories;
+    }
+    
+    public void setAimedCalories(double aimedCalories) {
+        this.aimedCalories = aimedCalories;
     }
 
     public double getAimedMaccros() {
