@@ -15,6 +15,10 @@ CREATE TABLE user (
     email VARCHAR(255) UNIQUE NOT NULL,
     current_maccros DOUBLE,
     aimed_maccros DOUBLE,
+	aimed_carbohydrates DOUBLE,
+	aimed_fibers DOUBLE,
+	aimed_proteins DOUBLE,
+	aimed_calories DOUBLE,
     cart_id BIGINT,  -- Refers to the cart entity
     password VARCHAR(255) NOT NULL,
     salt VARCHAR(255) NOT NULL
@@ -47,10 +51,10 @@ CREATE TABLE cart (
 );
 
 CREATE TABLE cart_products (
-    cart_id BIGINT NOT NULL,  -- Reference to cart.id
-    product_id BIGINT NOT NULL,  -- Reference to product.id
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,  -- Single primary key
+    cart_id BIGINT NOT NULL,  -- Foreign key to cart
+    product_id BIGINT NOT NULL,  -- Foreign key to product
     quantity_in_grams DOUBLE NOT NULL,  -- Quantity of the product in grams
-    PRIMARY KEY (cart_id, product_id),
-    CONSTRAINT FK_cart FOREIGN KEY (cart_id) REFERENCES cart(id),
-    CONSTRAINT FK_product FOREIGN KEY (product_id) REFERENCES products(id)
+    FOREIGN KEY (cart_id) REFERENCES cart(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
 );
